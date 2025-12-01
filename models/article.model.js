@@ -15,7 +15,11 @@ const articleSchema = new mongoose.Schema({
     type: String,
     default: "Guest"
   },
-},   { timestamps: true } );
+},
+   { timestamps: true } 
+);
+
+articleSchema.index({ title: 'text', content: 'text' });
 
 const Article = mongoose.model("Article", articleSchema);
 

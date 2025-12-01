@@ -37,21 +37,14 @@ const postArticle = async (req, res, next) => {
 };
 
 const getAllArticle = async (req, res, next) => {
-  const page = parseInt(req.query.page) || 1;
-
-  const limit = parseInt(req.query.limit) || 10;
-
-  const skip = (page - 1) * limit;
+  const {search} = req.query
 
   try {
-    const articles = await ArticleModel.find({})
-    .sort({ createdAt: -1 })
-    .limit(limit)
-    .skip(skip);
+    const articles = await ArticleModel.find({ $text: { $search: search } });
 
     return res.status(200).json({
       message: "Articles fetched",
-      data: articles
+      data: articles,
   })
   } catch (error) {
    next(error);
