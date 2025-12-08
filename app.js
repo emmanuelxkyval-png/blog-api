@@ -6,6 +6,7 @@ const logger = require('./middlewares/logger.js');
 const errorhandler = require('./middlewares/errorhandler.js');
 
 const ArticleRoutes = require('./routes/article.route.js');
+const UserRoutes = require('./routes/user.route.js');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -18,9 +19,10 @@ app.use(cors({"origin": "*"}));
 
 app.use(logger);
 
-app.use(errorhandler);
-
 app.use('/api', ArticleRoutes);
+app.use('/api/users/', UserRoutes);
+
+app.use(errorhandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

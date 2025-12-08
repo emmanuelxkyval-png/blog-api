@@ -4,16 +4,17 @@ const articleSchema = new mongoose.Schema({
   title:{
     type: String,
     required: true,
-    minLength: 5
+    minLength: 5,
   },
   content:{
     type: String,
     required: true,
-    minLength: 20
+    minLength: 20,
   },
   author:{
-    type: String,
-    default: "Guest"
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
 },
    { timestamps: true } 
