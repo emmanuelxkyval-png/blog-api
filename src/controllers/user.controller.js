@@ -2,18 +2,9 @@ const UserModel = require('../models/user.model.js');
 const joi = require("joi");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { hashPassword } = require('../utils/bcrypt.js');
 
 const registerUser = async (req, res, next) => {
-
-  const registerSchema = joi.object ({
-    name: joi.string().min(2).required(),
-    email: joi.string().email().required(),
-    password: joi.string().required()
-  });
-  const {error} = registerSchema.validate(req.body)
-  if(error){
-    return res.status(400).json({message: error.details[0].message})
-  }
   try {
   const {email, password, name} = req.body;
 
@@ -22,9 +13,7 @@ const registerUser = async (req, res, next) => {
   if (existingUser){
     return res.status(400).json({message: "User already exists"})
   }
-
-  const salt = await bcrypt.genSalt(12);
-  const hashed = await bcrypt.hash(password, salt);
+await hashPassword(passsword);
 
   const user = new UserModel({
     email: email,
@@ -43,11 +32,7 @@ const registerUser = async (req, res, next) => {
 };
 
 const loginUser = async (req, res, next) => {
-  
-  const loginSchema = joi.object({
-    email: joi.string().email().required(),
-    password: joi.string().required()
-  });
+
 
   const { error } = loginSchema.validate(req.body);
     if(error){
