@@ -7,7 +7,7 @@ const requireAuth = async (req, res, next) => {
   if (!authHeader || !authHeader.startsWith('Bearer '))
     return res.status(401).json({ error: 'Access denied, no token' });
 
-  const token = authHeader.replace('Bearer', '');
+  const token = authHeader.replace('Bearer ', '');
 
   try {
     console.log('SECRET:', process.env.JWT_SECRET);

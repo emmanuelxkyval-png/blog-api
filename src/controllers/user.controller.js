@@ -3,6 +3,7 @@ const joi = require("joi");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { hashPassword } = require('../utils/bcrypt.js');
+const { loginSchema } = require('../validations/user.validations.js');
 
 const registerUser = async (req, res, next) => {
   try {
@@ -13,11 +14,11 @@ const registerUser = async (req, res, next) => {
   if (existingUser){
     return res.status(400).json({message: "User already exists"})
   }
-await hashPassword(passsword);
+await hashPassword(password);
 
   const user = new UserModel({
     email: email,
-    password: hashed,
+    password: await hashPassword(password),
     name: name
   })
 

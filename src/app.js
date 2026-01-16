@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(cors({"origin": "*"}));
 
 app.use(logger);
-app.use('/api/users/', UserRoutes);
+app.use('/api/users', UserRoutes);
 
 app.use(requireAuth)
 app.use('/api', ArticleRoutes);
